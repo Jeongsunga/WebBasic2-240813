@@ -3,6 +3,7 @@ import Component, {ClassComponent, FunctionComponent} from './component/Componen
 // export default X (여러 요소 export 가능) -> import {하나의 요소}(이름 변경 시 as 사용) from ...  
 // export default O (반드시 하나의 요소만 export) -> import 하나의 요소(이름 변경 가능) from ...
 import './App.css';
+import CurlyBraces from './component/CurlyBraces';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Component/>
       <ClassComponent/>
       <FunctionComponent/>
+      <CurlyBraces/>
     </div>
   );
 }
