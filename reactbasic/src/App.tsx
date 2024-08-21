@@ -7,17 +7,19 @@ import ConditionalRender from './component_manage/ConditionalRender';
 // export default O (반드시 하나의 요소만 export) -> import 하나의 요소(이름 변경 가능) from ...
 import './App.css';
 import Example2 from './example/Example2';
+import ListRender from './component_manage/ListRender';
 
 function App() {
   return (
     <div>
-      {/* <Component/>
-      <ClassComponent/>
-      <FunctionComponent/>
-      <CurlyBraces/>
-      <Properties/>
-      <ConditionalRender/> */}
+      {/* <Component/> */}
+      {/* <ClassComponent/> */}
+      {/* <FunctionComponent/> */}
+      {/* <CurlyBraces/> */}
+      {/* <Properties/> */}
+      {/* <ConditionalRender/> */}
       <Example2/>
+      <ListRender/>
     </div>
   );
 }
