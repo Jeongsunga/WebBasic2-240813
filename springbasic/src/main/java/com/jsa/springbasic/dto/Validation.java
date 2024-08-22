@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,5 +61,9 @@ public class Validation {
     // @Size(min=?, max=?) : 커넥션의 길이 최소 최대값을 지정
     @Size(min=2, max=4)
     private Integer[] size;
+
+    // @Pattern(regexp=정규식) : 정규식을 이용하여 문자열의 패턴을 검사
+    @Pattern(regexp="^[a-zA-Z]*$")
+    private String pattern;
 
 }
