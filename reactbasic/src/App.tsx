@@ -10,6 +10,7 @@ import Example2 from './example/Example2';
 import ListRender from './component_manage/ListRender';
 import EventComponent from './interaction/EventComponent';
 import StateComponent from './interaction/StateComponent';
+import ForwardingStateComponent from './interaction/ForwardingStateComponent';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
       {/* <Example2/> */}
       {/* <ListRender/> */}
       {/* <EventComponent/> */}
-      <StateComponent/>
+      {/* <StateComponent/> */}
+      <ForwardingStateComponent/>
     </div>
   );
 }

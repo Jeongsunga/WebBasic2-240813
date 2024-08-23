@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 
 // 상태(state)
 // - 각각의 컴포넌트가 독립적으로 가지고 있는 데이터 저장 공간
@@ -15,7 +15,15 @@ export default function StateComponent() {
     const [count, setCount] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
     // let counts: number[] = [];
-    const[counts, setCounts] = useState<number[]>([0]);
+    const [counts, setCounts] = useState<number[]>([0]);
+    const [comment, setComment] = useState("")
+
+    let comm = '';
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      comm = event.target.value;
+      console.log(comm);
+      setComment(event.target.value);
+    }
 
     const onIncrease = () => {
         setCount(count + 1);
@@ -76,12 +84,25 @@ export default function StateComponent() {
         setCount(newCount);
         setTotal(total + newCount);
 
+        // 아래 주소는 배열에 요소를 추가했지만
+        // 실제 배열 주소가 바뀌지 않았기 때문에 변경을 인식 못 함
+        // counts.push(newCount)
+        // console.log(counts)
+        // setCounts(counts)
         
-        
+        // 타입이 배열 혹은 객체 형태인 상태는
+        // 반드시 새로운 배열 혹은 객체를 생성하고 변경해야 인식함
+        const newCounts = [...counts, newCount];
+        setCounts(newCounts);
+
     }
 
   return (
     <div>
+        <h1>{comm}</h1>
+        <h1>{comment}</h1>
+        만약 input으로 상태를 변경한다면 value로 해당 상태를 지정해서 불일치가 발생하지 않게 함
+        <input value={comment} onChange={onChangeHandler}/>
         <h1>{count}</h1>
         <h1>total : {total}</h1>
         <h1>counts length : {counts.length} {counts}</h1>
