@@ -11,6 +11,9 @@ import ListRender from './component_manage/ListRender';
 import EventComponent from './interaction/EventComponent';
 import StateComponent from './interaction/StateComponent';
 import ForwardingStateComponent from './interaction/ForwardingStateComponent';
+import HookComponent from './hook/HookComponent';
+import HookComponent2 from './hook/HookComponent2';
+import CustomHook from './hook/CustomHook';
 
 function App() {
   return (
@@ -25,7 +28,10 @@ function App() {
       {/* <ListRender/> */}
       {/* <EventComponent/> */}
       {/* <StateComponent/> */}
-      <ForwardingStateComponent/>
+      {/* <ForwardingStateComponent/> */}
+      {/* <HookComponent/> */}
+      {/* <HookComponent2/> */}
+      <CustomHook/>
     </div>
   );
 }

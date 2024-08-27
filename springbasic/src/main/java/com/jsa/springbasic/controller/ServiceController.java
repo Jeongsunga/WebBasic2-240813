@@ -50,7 +50,7 @@ public class ServiceController {
     //     this.basicService = basicService;
     // }
 
-    private Date today;
+     private Date today;
 
    @GetMapping("")
    public ResponseEntity<String> getService(){
