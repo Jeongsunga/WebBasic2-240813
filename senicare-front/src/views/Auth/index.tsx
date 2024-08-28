@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import "./style.css";
 import InputBox from "src/components/InputBox";
 
@@ -24,7 +24,16 @@ export default function Auth() {
   const [passwordCheckError, setPasswordCheckMessageError] = useState<boolean>(false);
   const [telNumberError, setTelNumberMessageError] = useState<boolean>(false);
   const [authNumberError, setAuthNumberMessageError] = useState<boolean>(false);
-  
+
+  const [isCheckedId, setCheckedId] = useState<boolean>(false);
+  const [isMatchedPassword, setMatchedPassword] = useState<boolean>(false);
+  const [isCheckedPassword, setCheckedPassword] = useState<boolean>(false);
+  const [isSend, setSend] = useState<boolean>(false);
+  const [isCheckedAuthNumber, SetCheckedAuthNumber] = useState<boolean>(false);
+
+  const isComplete = name && id && isCheckedId && password && passwordCheck && isCheckedPassword
+      && isMatchedPassword && telNumber && isSend && authNumber && isCheckedAuthNumber
+
 
   const onNameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
@@ -34,6 +43,8 @@ export default function Auth() {
   const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     setId(value);
+    setCheckedId(false);
+    setIdMessage("");
   }
 
   const onPasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,39 +54,32 @@ export default function Auth() {
     const pattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,13}$/;
     const isMatched = pattern.test(value);
 
-    const message = isMatched ? '' : '영문, 숫자를 혼용하여 8 ~ 13자 입력해주세요.'
+    const message = isMatched || !value ? '' : '영문, 숫자를 혼용하여 8 ~ 13자 입력해주세요.'
     setPasswordMessage(message);
     setPasswordMessageError(!isMatched);
-    
-    if(!passwordCheck) return;
+    setMatchedPassword(isMatched);
 
-    const isEqual = passwordCheck === value;
-    const checkMessage = isEqual ? '' : '비밀번호가 일치하지 않습니다.';
-    setPasswordCheckMessage(checkMessage);
-    setPasswordCheckMessageError(!isEqual);
   }
 
   const onPasswordCheckChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     setPasswordCheck(value);
 
-    if(!password) return;
-
-    const isEqual = password === value;
-    const message = isEqual ? '' : '비밀번호가 일치하지 않습니다.';
-    setPasswordCheckMessage(message);
-    setPasswordCheckMessageError(!isEqual);
-
   }
 
   const onTelNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     setTelNumber(value);
+    setSend(false);
+    setTelNumberMessage('');
+
   }
 
   const onAuthNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     setAuthNumber(value);
+    SetCheckedAuthNumber(false);
+    setAuthNumberMessage('');
   }
 
   const onIdCheckClickHandler = () => {
@@ -84,17 +88,51 @@ export default function Auth() {
     const message = isDuplicated ? '이미 사용중인 아이디입니다.' : '사용 가능한 아이디입니다.';
     setIdMessage(message);
     setIdMessageError(isDuplicated);
+    setCheckedId(!isDuplicated);
   };
 
   const onTelNumberSendClickHandler = () => {
     if(!telNumber) return;
-    alert('안증번호 전송!');
+
+    const pattern = /^[0-9]{11}$/;
+    const isMatched = pattern.test(telNumber);
+
+    if(!isMatched){
+      setTelNumberMessage('숫자 11자를 입력해주세요.');
+      setTelNumberMessageError(true);
+      return;
+    }
+
+    setTelNumberMessage('인증번호가 전송되었습니다.');
+    setTelNumberMessageError(false);
+    setSend(true);
   }
 
   const onAuthNumberCheckClickHandler = () => {
     if(!authNumber) return;
-    alert('인증번호 확인!');
+
+    const isMatched = authNumber === 'Q1W2';
+    const message = isMatched ? '인증번호가 확인되었습니다.' : '인증번호가 일치하지 않습니다.';
+    setAuthNumberMessage(message);
+    SetCheckedAuthNumber(isMatched);
+    setAuthNumberMessageError(!isMatched);
   }
+
+  const onSignUpButtonHandler = () => {
+    if(!isComplete) return;
+
+    alert('회원가입 성공')
+  }
+
+  useEffect(()=>{
+    if(!password || !passwordCheck) return;
+
+    const isEqual = password === passwordCheck;
+    const message = isEqual ? '' : '비밀번호가 일치하지 않습니다.';
+    setPasswordCheckMessage(message);
+    setPasswordCheckMessageError(!isEqual);
+    setCheckedPassword(isEqual);
+  },[password, passwordCheck])
 
   return (
     <div>
@@ -120,11 +158,14 @@ export default function Auth() {
               <InputBox messageError={passwordError} message={passwordMessage} value={password} label="비밀번호" type="password" placeholder="비밀번호를 입력해주세요." onChange={onPasswordHandler}/>
               <InputBox messageError={passwordCheckError} message={passwordCheckMessage} value={passwordCheck} label="비밀번호 확인" type="password" placeholder="비밀번호를 입력해주세요." onChange={onPasswordCheckChangeHandler}/>
               <InputBox messageError={telNumberError} message={telNumberMessage} value={telNumber} label="전화번호" type="text" placeholder="-빼고 입력해주세요." buttonName="전화번호 인증" onChange={onTelNumberChangeHandler} onButtonClick={onTelNumberSendClickHandler}/>
+              {isSend &&
               <InputBox messageError={authNumberError} message={authNumberMessage} value={authNumber} label="인증번호" type="text" placeholder="인증번호 4자리를 입력해주세요." buttonName="인증 확인" onChange={onAuthNumberChangeHandler} onButtonClick={onAuthNumberCheckClickHandler}/>
+              }
+              
             </div>
 
             <div className="button-container">
-              <div id="sign-up-button" className="button disable full-width">회원가입</div>
+              <div className={`button ${isComplete ? 'primary' : 'disable '} full-width`} onClick={onSignUpButtonHandler}>회원가입</div>
               <div className="link">로그인</div>
             </div>
           </div>
