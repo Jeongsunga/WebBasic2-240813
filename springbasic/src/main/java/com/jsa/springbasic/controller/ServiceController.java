@@ -1,6 +1,6 @@
 package com.jsa.springbasic.controller;
 
-import java.util.*;
+// import java.util.*;
 
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +50,7 @@ public class ServiceController {
     //     this.basicService = basicService;
     // }
 
-     private Date today;
+     // private Date today;
 
    @GetMapping("")
    public ResponseEntity<String> getService(){
