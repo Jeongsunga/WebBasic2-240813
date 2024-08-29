@@ -14,9 +14,10 @@ import ForwardingStateComponent from './interaction/ForwardingStateComponent';
 import HookComponent from './hook/HookComponent';
 import HookComponent2 from './hook/HookComponent2';
 import CustomHook from './hook/CustomHook';
-import { Outlet, Route, Routes } from 'react-router';
+import { Outlet, Route, Routes, useLocation } from 'react-router';
 import QueryString from './router/QueryString';
 import { PathVariable } from './router/PathVariable';
+import PathMove from './router/PathMove';
 
 // react-router 패키지
 // - react의 SPA(Single Page Application)에서 라우팅을 구현하기 위한 라이브러리
@@ -38,11 +39,17 @@ import { PathVariable } from './router/PathVariable';
 // - index 속성 : 현재 경로의 기본 라우터로 지정
 
 function Layout() {
+
+  // useLocation
+  // - 현재 경로에 대한 객체를 반환하는 react-router 훅 함수
+  // - pathname : 현재 path
+  const {pathname} = useLocation();
+
   // <Outlet> : 부모 <Route>에 해당 컴포넌트가 element로 등록되었을 때 
   //            자식 <Route>의 element가 해당 위치에 랜더링 되도록 하는 컴포넌트
   return (
     <div>
-      <div style={{height:'100px', backgroundColor: 'red'}}></div>
+      <div style={{height:'100px', backgroundColor: 'red'}}>{pathname}</div>
       <Outlet/>
       <div style={{height:'100px', backgroundColor: 'blue'}}></div>
     </div>
@@ -64,6 +71,7 @@ function App() {
         <Route path='query-string' element={<QueryString/>}/>
         {/* localhost:3000/router/path-variable/홍길동 */}
         <Route path='path-variable/:name' element={<PathVariable/>}/>   {/* name 활용시 : 사용 -> 컴포넌트 이름과 같아야 함! */}
+        <Route path='path-move' element={<PathMove/>}/>
       </Route>
       <Route path='*' element={<h1>404!</h1>}/>    {/* 지정하지 않은 URL에 대한 대처 */}
       {/* <Component/> */}
