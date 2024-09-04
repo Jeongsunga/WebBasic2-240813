@@ -2,13 +2,25 @@ package com.jsa.springbasic.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jsa.springbasic.dto.PostUserRequestDto;
+import com.jsa.springbasic.dto.SignInRequestDto;
+import com.jsa.springbasic.service.AuthService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
     
+    private final AuthService authService;
+
     @GetMapping("")
     public String getAuth(
         // @AuthenticationPrincipal
@@ -18,6 +30,22 @@ public class AuthController {
         @AuthenticationPrincipal String principal
     ) {
         return principal;
+    }
+
+    @PostMapping("/sign-up")
+    public String signUp(
+        @RequestBody @Valid PostUserRequestDto requestBody
+    ) {
+        String response = authService.signUp(requestBody);
+        return response;
+    }
+
+    @PostMapping("/sign-in")
+    public String signIn(
+        @RequestBody @Valid SignInRequestDto requestBody
+    ) {
+        String response = authService.signIn(requestBody);
+        return response;
     }
 
 }
